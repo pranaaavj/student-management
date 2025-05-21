@@ -1,0 +1,28 @@
+{
+  "name": "student-management",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranaaavj/student-management.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pranaaavj/student-management/issues"
+  },
+  "homepage": "https://github.com/pranaaavj/student-management#readme",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^5.0.2",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^22.15.21",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.0",
+    "typescript": "^5.8.3"
+  }
+}
