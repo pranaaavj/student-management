@@ -1,4 +1,4 @@
-import { IStudent } from '../models/student.model';
+import { Student, IStudentDocument } from '../models/student.model';
 import IRepository from '../repository/repository.interface';
 import {
   CreateStudentRequest,
@@ -7,13 +7,14 @@ import {
 import { StudentResponse } from '../models/response.model';
 
 class StudentService {
-  constructor(private repository: IRepository<IStudent>) {}
+  constructor(private repository: IRepository<IStudentDocument>) {}
 
   async createStudent(req: CreateStudentRequest): Promise<StudentResponse> {
+    const studentEntity = new Student(req.name, req.grade);
     const student = await this.repository.create({
-      name: req.name,
-      grade: req.grade,
-    } as IStudent);
+      name: studentEntity.getName(),
+      grade: studentEntity.getGrade(),
+    });
 
     return this.mapToResponse(student);
   }
@@ -40,7 +41,7 @@ class StudentService {
     return this.mapToResponse(updated);
   }
 
-  private mapToResponse(student: IStudent): StudentResponse {
+  private mapToResponse(student: IStudentDocument): StudentResponse {
     return {
       id: student._id.toString(),
       name: student.name,

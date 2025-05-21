@@ -1,16 +1,44 @@
 import { Schema, Document, model, Types } from 'mongoose';
 
-interface IPerson {
-  name: string;
-  getDetails(): string;
+abstract class Person {
+  constructor(protected name: string) {}
+
+  abstract getDetails(): string;
+
+  getName(): string {
+    return this.name;
+  }
 }
 
-interface IStudent extends IPerson, Document {
-  _id: Types.ObjectId;
+class Student extends Person {
+  constructor(name: string, private grade: string) {
+    super(name);
+  }
+
+  getDetails(): string {
+    return `Student ${this.name}: Grade - ${this.grade}`;
+  }
+
+  getGrade(): string {
+    return this.grade;
+  }
+
+  setGrade(newGrade: string): void {
+    this.grade = newGrade;
+  }
+}
+
+interface IStudentData {
+  name: string;
   grade: string;
 }
 
-const studentSchema = new Schema({
+interface IStudentDocument extends Document, IStudentData {
+  _id: Types.ObjectId;
+  getDetails(): string;
+}
+
+const studentSchema = new Schema<IStudentDocument>({
   name: { type: String, required: true },
   grade: { type: String, required: true },
 });
@@ -19,6 +47,6 @@ studentSchema.methods.getDetails = function () {
   return `Student ${this.name}, Grade ${this.grade}`;
 };
 
-const StudentModel = model<IStudent>('Student', studentSchema);
+const StudentModel = model<IStudentDocument>('Student', studentSchema);
 
-export { StudentModel, IStudent, IPerson };
+export { StudentModel, IStudentData, IStudentDocument, Person, Student };

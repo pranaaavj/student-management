@@ -10,15 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StudentService = void 0;
+const student_model_1 = require("../models/student.model");
 class StudentService {
     constructor(repository) {
         this.repository = repository;
     }
     createStudent(req) {
         return __awaiter(this, void 0, void 0, function* () {
+            const studentEntity = new student_model_1.Student(req.name, req.grade);
             const student = yield this.repository.create({
-                name: req.name,
-                grade: req.grade,
+                name: studentEntity.getName(),
+                grade: studentEntity.getGrade(),
             });
             return this.mapToResponse(student);
         });
